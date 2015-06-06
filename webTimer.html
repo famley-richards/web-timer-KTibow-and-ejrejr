@@ -5,13 +5,15 @@
     <title>Web Timer Project</title>
     
   <script>
+    var seconds = 0;
+    var minutes = 0;
+    var hours = 0;
+    var timeoutActive = false;
+    
     function StartTimer()
     {
       var inputTime = startTime.value;
       var times = inputTime.split(":");
-      var seconds = 0;
-      var minutes = 0;
-      var hours = 0;
       
       if (times.length == 1) {
         seconds = times[0];
@@ -31,6 +33,42 @@
       timeHours.innerText = hours;
       timeMinutes.innerText = minutes;
       timeSeconds.innerText = seconds;
+      
+      if (timeoutActive == false) {
+        setTimeout(UpdateTimer, 200);
+        timeoutActive = true;
+      }
+    }
+    
+    function UpdateTimer()
+    {
+      if (hours == 0 && minutes == 0 && seconds == 0) {
+        timeoutActive = false;
+        return;
+      }
+      
+      seconds = seconds - 1;
+      
+      if (seconds < 0) {
+        seconds = 59;
+        minutes = minutes - 1;
+      }
+      
+      if (minutes < 0) {
+        minutes = 59;
+        hours = hours - 1;
+      }
+      
+      if (hours < 0)
+      {
+        hours = 0;
+      }
+    
+      timeHours.innerText = hours;
+      timeMinutes.innerText = minutes;
+      timeSeconds.innerText = seconds;
+
+      setTimeout(UpdateTimer, 200);
     }
   </script>
   </head>
